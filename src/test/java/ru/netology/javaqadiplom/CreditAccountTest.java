@@ -321,11 +321,12 @@ public class CreditAccountTest {
     //Расчет процентов при положительном балансе
     public void ShouldIncreaseRateIfPositiveBalance() {
         CreditAccount account = new CreditAccount(
-                1,
+                201,
                 5_000,
                 15
-        );
 
+        );
+        account.pay(200);
         int expected = 0;
         int actual = account.yearChange();
 
