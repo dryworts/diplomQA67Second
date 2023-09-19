@@ -8,6 +8,7 @@ package ru.netology.javaqadiplom;
 public class CreditAccount extends Account {
     protected int creditLimit;
 
+
     /**
      * Создаёт новый объект кредитного счёта с заданными параметрами.
      * Если параметры некорректны (кредитный лимит отрицательный и так далее), то
@@ -18,10 +19,19 @@ public class CreditAccount extends Account {
      */
     public CreditAccount(int initialBalance, int creditLimit, int rate) {
         if (rate <= 0) {
-            throw new IllegalArgumentException(
-                    "Накопительная ставка не может быть отрицательной, а у вас: " + rate
+            throw new IllegalArgumentException("Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
+        if (creditLimit < 0) {
+            throw new IllegalArgumentException("Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit
+            );
+        }
+        if (initialBalance < 0) {
+            throw new IllegalArgumentException("Начальный баланс не может быть отрицательным, а у вас: " + initialBalance
+            );
+        }
+
+
         this.balance = initialBalance;
         this.creditLimit = creditLimit;
         this.rate = rate;
@@ -41,8 +51,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > -creditLimit) {
+        if (amount < creditLimit) {
             balance = -amount;
             return true;
         } else {
@@ -63,11 +72,17 @@ public class CreditAccount extends Account {
      */
     @Override
     public boolean add(int amount) {
+        if ((balance + amount) > creditLimit) {
+            return false;
+        }
         if (amount <= 0) {
             return false;
         }
-        balance = amount;
-        return true;
+        if ((balance + amount) < creditLimit) {
+            balance = balance + amount;
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -80,7 +95,11 @@ public class CreditAccount extends Account {
      */
     @Override
     public int yearChange() {
-        return balance / 100 * rate;
+        if (balance > 0) {
+            return 0;
+        } else {
+            return balance / 100 * rate;
+        }
     }
 
     public int getCreditLimit() {

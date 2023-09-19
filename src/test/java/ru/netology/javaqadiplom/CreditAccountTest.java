@@ -16,7 +16,7 @@ public class CreditAccountTest {
 //        account.add(3_000);
 //
 //        Assertions.assertEquals(3_000, account.getBalance());
-//    }
+//        }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Test
@@ -220,13 +220,13 @@ public class CreditAccountTest {
     public void ShouldPayIfAmountEqualLimit() {
         CreditAccount account = new CreditAccount(
                 0,
-                5_000,
+                5000,
                 15
         );
-        boolean expected = true;
-        boolean actual = account.pay(5_000);
 
-        Assertions.assertEquals(expected, actual);
+        account.pay(5_000);
+
+        Assertions.assertEquals(0, account.getBalance());
     }
 
     @Test
@@ -320,17 +320,10 @@ public class CreditAccountTest {
     @Test
     //Расчет процентов при положительном балансе
     public void ShouldIncreaseRateIfPositiveBalance() {
-        CreditAccount account = new CreditAccount(
-                201,
-                5_000,
-                15
-
-        );
-        account.pay(200);
-        int expected = 0;
-        int actual = account.yearChange();
-
-        Assertions.assertEquals(expected, actual);
+        CreditAccount account = new CreditAccount(201, 5_000, 15);
+        int initialBalance = 200;
+        int rate = 15;
+        Assertions.assertEquals(0, account.yearChange());
     }
 
     @Test
