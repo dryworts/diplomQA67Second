@@ -220,13 +220,14 @@ public class CreditAccountTest {
     public void ShouldPayIfAmountEqualLimit() {
         CreditAccount account = new CreditAccount(
                 0,
-                5000,
+                5_000,
                 15
         );
 
-        account.pay(5_000);
+        boolean expected = true;
+        boolean actual = account.pay(5_000);
 
-        Assertions.assertEquals(0, account.getBalance());
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
